@@ -29,6 +29,7 @@ func (d *Downloader) execute() {
 		if err != nil {
 			log.Fatal(err)
 		}
+		go d.create_file(c.Key, limit, data, done)
 	}
 	<-done
 }

@@ -1,4 +1,4 @@
-package s3_bulk_dl
+package s3_bulk
 
 import (
 	"io/ioutil"
@@ -19,7 +19,7 @@ type Downloader struct {
 	Contents []s3.Key
 }
 
-func (d *Downloader) execute() {
+func (d *Downloader) Execute() {
 	runtime.GOMAXPROCS(d.Procs)
 
 	done := make(chan bool)
@@ -29,12 +29,12 @@ func (d *Downloader) execute() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		go d.create_file(c.Key, limit, data, done)
+		go d.createFile(c.Key, limit, data, done)
 	}
 	<-done
 }
 
-func (d *Downloader) create_file(s3_path string, limit int, data []byte, done chan bool) {
+func (d *Downloader) createFile(s3_path string, limit int, data []byte, done chan bool) {
 	full_file_path := d.BasePath + s3_path
 	full_dir_path := regexp.MustCompile(".+/").FindString(full_file_path)
 	if err := os.MkdirAll(full_dir_path, 0766); err != nil {

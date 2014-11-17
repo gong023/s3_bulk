@@ -35,7 +35,7 @@ func (d *Downloader) execute() {
 
 func (d *Downloader) create_file(s3_path string, limit int, data []byte, done chan bool) {
 	full_file_path := d.BasePath + s3_path
-	full_dir_path := regexp.MustCompile(".+/").FindString(full_dir_path)
+	full_dir_path := regexp.MustCompile(".+/").FindString(full_file_path)
 	if err := os.MkdirAll(full_dir_path, 0766); err != nil {
 		log.Fatal(err)
 	}
